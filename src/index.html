@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="/dist/output.css" />
+	</head>
+	<body class="bg-background text-white">
+		<header class="flex justify-center items-center w-full h-1/2 flex-col">
+			<div
+				class="bg-background_lighter py-5 px-24 rounded-xl m-5 shadow-sm shadow-primary"
+			>
+				<h1 class="text-primary text-8xl font-bold">JSMP</h1>
+				<h2 class="text-white text-xl tracking-wider font-light">
+					JsScripts Package Manager
+				</h2>
+			</div>
+		</header>
+
+		<main>
+			<div class="flex pt-2 text-gray-600 flex-row">
+				<input
+					class="border-2 border-black bg-white/10 h-10 px-5 pr-16 rounded-l-lg text-sm focus:outline-none text-white"
+					type="search"
+					name="search"
+					placeholder="Search scripts"
+				/>
+				<button
+					type="submit"
+					class="flex-end border-r-2 border-y-2 border-black bg-white/5 rounded-r-lg p-2"
+				>
+					<svg
+						aria-hidden="true"
+						class="w-5 h-5 text-gray-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+						></path>
+					</svg>
+				</button>
+			</div>
+			<div
+				class="bg-background_lighter rounded-xl m-5 h-full scripts-container p-5"
+			>
+				<div class="script">
+					<h1 class="script-name">Lorem, ipsum.</h1>
+					<hr class="m-2 w-1/4 self-center" />
+					<h3 class="script-description">
+						Lorem ipsum dolor sit, amet consectetur adipisicing
+						elit. Nulla commodi laboriosam possimus reiciendis error
+						a.
+					</h3>
+					<hr class="m-2 mt-auto" />
+					<div
+						class="mt-auto flex flex-row justify-between items-center"
+					>
+						<h3 class="script-data">Lorem. • 1.19.4</h3>
+						<a href="#" class="script-button"
+							><img src="../dist/media/download.svg" alt=""
+						/></a>
+					</div>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>
