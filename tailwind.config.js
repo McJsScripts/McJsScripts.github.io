@@ -4,14 +4,16 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				primary: "#81E6C6",
-				secondary: "#C681E6",
-				tertiary: "#E6C681",
+				primary: "#122849",
+				secondary: "#19355E",
+				tertiary: "#27497A",
 
-				background: "#0E1A16",
-				background_lighter: "#171f1c",
-				card: "#1c2623",
+				background: "rgb(15 23 42)",
+				gray: "rgb(214 211 209)",
 			},
+		},
+		fontFamily: {
+			sans: "Inter, sans-serif",
 		},
 	},
 	plugins: [],

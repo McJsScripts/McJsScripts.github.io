@@ -2,35 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.scripts-container {
-	display: grid;
-	@apply gap-x-5 gap-y-5 grid-cols-1 md:grid-cols-4 lg:grid-cols-5;
-}
-
-.script {
-	@apply flex flex-col max-w-sm bg-card p-5 rounded-lg;
-}
-
-.script-name {
-	@apply text-2xl lg:text-xl font-bold text-center;
-}
-
-.script-description {
-	@apply p-2 bg-white/[1%] rounded-lg m-2;
-}
-
-.script-data {
-	@apply text-white/40 tracking-wide;
-}
-
-.script-button {
-	@apply bg-white bg-opacity-5 p-2 rounded-lg font-extralight;
-}
-
-.script-button img {
-	@apply w-7 h-7;
-}
-
-hr {
-	@apply border-t-2 border-white/10;
+@font-face {
+	font-family: "Inter";
+	src: url("/dist/media/Inter-VariableFont.ttf") format("truetype-variations");
+	font-weight: 100 200 300 400 500 600 700 800 900;
 }
