@@ -590,6 +590,10 @@ video {
   justify-content: space-between;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .rounded-lg {
   border-radius: 0.5rem;
 }
