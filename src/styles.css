@@ -7,3 +7,27 @@
 	src: url("/dist/media/Inter-VariableFont.ttf") format("truetype-variations");
 	font-weight: 100 200 300 400 500 600 700 800 900;
 }
+
+.script-container {
+	@apply bg-secondary md:w-4/5 h-1/4 rounded-lg p-5 relative;
+}
+
+.script-container h1 {
+	@apply text-2xl md:text-4xl font-bold;
+}
+
+.script-container .stats {
+	@apply absolute top-0 right-0 text-sm font-normal flex gap-2 p-2;
+}
+
+.script-container h2 {
+	@apply text-base md:text-xl text-gray max-w-3xl;
+}
+
+.script-container .tags {
+	@apply absolute right-0  bottom-0 text-base font-normal flex gap-2 p-2;
+}
+
+.script-container .tags div {
+	@apply rounded-full bg-tertiary text-gray py-1 px-3;
+}
