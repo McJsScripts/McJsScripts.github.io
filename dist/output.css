@@ -550,8 +550,16 @@ video {
   height: 25%;
 }
 
+.h-5 {
+  height: 1.25rem;
+}
+
 .h-full {
   height: 100%;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .w-full {
@@ -651,24 +659,6 @@ video {
   padding: 1.25rem;
 }
 
-.p-\[0\.16rem\] {
-  padding: 0.16rem;
-}
-
-.p-\[0\.51rem\] {
-  padding: 0.51rem;
-}
-
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -726,19 +716,6 @@ video {
 
   .md\:w-4\/5 {
     width: 80%;
-  }
-
-  .md\:p-\[0\.66rem\] {
-    padding: 0.66rem;
-  }
-
-  .md\:p-\[0\.6rem\] {
-    padding: 0.6rem;
-  }
-
-  .md\:py-3 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
   }
 
   .md\:text-left {
