@@ -9,25 +9,27 @@
 }
 
 .script-container {
-	@apply bg-secondary md:w-4/5 h-1/4 rounded-lg p-5 relative;
+	@apply bg-secondary p-3 rounded-lg md:grid items-center grid-cols-2;
 }
 
 .script-container h1 {
-	@apply text-2xl md:text-4xl font-bold;
+	@apply text-xl ml-2 font-bold underline;
+}
+
+.script-container p {
+	@apply text-base ml-2 text-gray max-w-3xl;
 }
 
 .script-container .stats {
-	@apply absolute top-0 right-0 text-sm font-normal flex gap-2 p-2;
+	@apply text-sm flex font-normal justify-end gap-2 p-2;
 }
-
-.script-container h2 {
-	@apply text-base md:text-xl text-gray max-w-3xl;
-}
+.script-container > .stats { @apply hidden md:flex; }
 
 .script-container .tags {
-	@apply absolute right-0  bottom-0 text-base font-normal flex gap-2 p-2;
+	@apply text-base hidden md:flex md:justify-end font-normal gap-2 p-2;
 }
+.script-container .tags > span { @apply rounded-full bg-tertiary text-gray py-1 px-3; }
 
-.script-container .tags div {
-	@apply rounded-full bg-tertiary text-gray py-1 px-3;
+.script-container .mobileinfo {
+	@apply md:hidden
 }
