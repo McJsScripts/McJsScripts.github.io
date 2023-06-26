@@ -4,7 +4,8 @@
 
 @font-face {
 	font-family: "Inter";
-	src: url("/dist/media/Inter-VariableFont.ttf") format("truetype-variations");
+	src: url("./public/media/Inter-VariableFont.ttf")
+		format("truetype-variations");
 	font-weight: 100 200 300 400 500 600 700 800 900;
 }
 
@@ -23,13 +24,17 @@
 .script-container .stats {
 	@apply text-sm flex font-normal justify-end gap-2 p-2;
 }
-.script-container > .stats { @apply hidden md:flex; }
+.script-container > .stats {
+	@apply hidden md:flex;
+}
 
 .script-container .tags {
 	@apply text-base hidden md:flex md:justify-end font-normal gap-2 p-2;
 }
-.script-container .tags > span { @apply rounded-full bg-tertiary text-gray py-1 px-3; }
+.script-container .tags > span {
+	@apply rounded-full bg-tertiary text-gray py-1 px-3;
+}
 
 .script-container .mobileinfo {
-	@apply md:hidden
+	@apply md:hidden;
 }
