@@ -56,7 +56,7 @@ async function initPackageSearch() {
 	// sans. (laugh (hilarious))
 	const genSkeletons = (count) => {
 		for (let i = 0; i < count; i++) pkgContainer.appendChild(getPkgSkeleton());
-		document.querySelector("footer").style.display = "block";
+		document.querySelector("footer").style.display = null;
 	}
 
 	const pkgContainer = document.getElementById("pkgContainer");
