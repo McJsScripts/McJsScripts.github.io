@@ -24,8 +24,8 @@ async function initPackageSearch() {
 			<div class="pkg-container">
 				<a href="?pkg=${encodeURIComponent(pkgname)}"><h1>${name}</h1></a>
 				<div class="stats">
-					<img src="/media/user.svg" alt="" /> <span id="owner">${owner}</span>
-					<img src="/media/cube.svg" alt="" /> <span id="mcver">${mcver}</span>
+					<img src="/media/user.svg" alt="" /> ${owner}
+					<img src="/media/cube.svg" alt="" /> ${mcver}
 					<img src="/media/code.svg" alt="" /> ${pkgver}
 				</div>
 				<p>${desc}</p>
