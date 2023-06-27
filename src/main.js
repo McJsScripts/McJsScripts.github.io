@@ -24,20 +24,12 @@ async function initPackageSearch() {
 			<div class="pkg-container">
 				<a href="?pkg=${encodeURIComponent(pkgname)}"><h1>${name}</h1></a>
 				<div class="stats">
-					<img src="/media/user.svg" alt="" /> ${owner}
-					<img src="/media/cube.svg" alt="" /> ${mcver}
+					<img src="/media/user.svg" alt="" /> <span id="owner">${owner}</span>
+					<img src="/media/cube.svg" alt="" /> <span id="mcver">${mcver}</span>
 					<img src="/media/code.svg" alt="" /> ${pkgver}
 				</div>
 				<p>${desc}</p>
 				<div class="tags">${tagHTML}</div>
-				<div class="mobileinfo">
-					<div class="tags">${tagHTML}</div>
-					<div class="stats">
-						<img src="/media/user.svg" alt="" /> sbot50
-						<img src="/media/cube.svg" alt="" /> 1.20
-						<img src="/media/code.svg" alt="" /> v1.0
-					</div>
-				</div>
 			</div>
 			`;
 	}
@@ -62,7 +54,7 @@ async function initPackageSearch() {
 	const pkgContainer = document.getElementById("pkgContainer");
 	const fetchedPkgNames = (await (await fetch(`${API_URL}/`)).json()).packageNames;
 	genSkeletons(fetchedPkgNames.length);
-	const pkgNames = [];
+	const searchQueries = [];
 	const promises = fetchedPkgNames.map(async n => ({pkgName: n, res: await fetch(`${API_URL}/pkg/${n}`)}));
 	await Promise.all((await Promise.all(promises)).map(async ({pkgName, res}) => {
 		const data = await res.json();
@@ -74,8 +66,10 @@ async function initPackageSearch() {
 		const desc = pkgData.description ? pkgData.description : "-- no description --";
 		const tags = pkgData.tags ? pkgData.tags : [];
 
-	if (displayName != pkgName) pkgNames.push(displayName);
-	pkgNames.push(pkgName);
+		if (displayName != pkgName) searchQueries.push(displayName);
+		searchQueries.push(pkgName);
+		searchQueries.push(pkgData.author.name);
+		searchQueries.push(pkgData.version.minecraft);
 
 		pkgContainer.innerHTML += getScriptHTML(
 			pkgName,
@@ -88,13 +82,15 @@ async function initPackageSearch() {
 		);
 	}));
 
-	const fzf = new Fzf(pkgNames, {casing: "case-insensitive"});
+	const fzf = new Fzf(searchQueries, {casing: "case-insensitive"});
 	const scriptSearch = document.getElementById("pkgSearch");
 
 	scriptSearch.addEventListener("input", (e) => {
 		const results = fzf.find(e.target.value);
 		pkgContainer.querySelectorAll(".pkg-container").forEach((pkg) => {
-			if (results.some((obj) => obj.item == pkg.querySelector("h1").innerText)) {
+			if (results.some((obj) => obj.item == pkg.querySelector("h1").innerText
+							|| obj.item == pkg.querySelector(".stats > #owner").innerText
+			 				|| obj.item == pkg.querySelector(".stats > #mcver").innerText)) {
 				pkg.style.display = "grid";
 				pkg.style.opacity = 100;
 			} else {
