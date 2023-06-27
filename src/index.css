@@ -7,7 +7,7 @@
 }
 
 .script-container h1 {
-	@apply text-xl ml-2 font-bold underline;
+	@apply text-xl ml-2 font-bold;
 }
 
 .script-container p {

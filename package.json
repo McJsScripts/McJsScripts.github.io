@@ -9,6 +9,8 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@types/marked": "^5.0.0",
+		"@types/sanitize-html": "^2.9.0",
 		"autoprefixer": "^10.4.14",
 		"postcss": "^8.4.24",
 		"tailwindcss": "^3.3.2",
@@ -16,6 +18,8 @@
 	},
 	"dependencies": {
 		"@fontsource-variable/inter": "^5.0.3",
-		"fzf": "^0.5.2"
+		"fzf": "^0.5.2",
+		"marked": "^5.1.0",
+		"sanitize-html": "^2.11.0"
 	}
 }

@@ -2,17 +2,13 @@ import "./index.css";
 import "@fontsource-variable/inter";
 import { Fzf } from "fzf";
 
-const getScriptHTML = (name, desc, owner, mcver, pkgver, tags) => {
+const getScriptHTML = (pkgname, name, desc, owner, mcver, pkgver, tags) => {
 	let tagHTML = "";
-	if (tags.length > 0) {
-		tags.array.forEach((tag) => {
-			tagHTML += `<span>${tag}</span>`;
-		});
-	}
+	if (tags.length) tags.array.forEach((tag) => tagHTML += `<span>${tag}</span>`);
 
 	return `
 			<div class="script-container">
-				<h1>${name}</h1>
+				<a href="/pkg?name=${pkgname}"><h1>${name}</h1></a>
 				<div class="stats">
 					<img src="/media/user.svg" alt="" /> ${owner}
 					<img src="/media/cube.svg" alt="" /> ${mcver}
@@ -32,9 +28,9 @@ const getScriptHTML = (name, desc, owner, mcver, pkgver, tags) => {
 		`;
 };
 
-const getScriptSkeleton = () => {
+const getPkgSkeleton = () => {
 	const skeleton = document.createElement("div");
-	skeleton.classList.add("script-container", "animate-pulse");
+	skeleton.classList.add("script-container", "animate-pulse", "skeleton");
 	skeleton.innerHTML = `
 			<h1><div class="w-1/6 h-4 rounded-lg bg-white"></div></h1>
 			<div class="stats">
@@ -44,51 +40,55 @@ const getScriptSkeleton = () => {
 		`;
 	return skeleton;
 };
+// sans. (laugh (hilarious))
+const genSkeletons = (count) => {
+	for (let i = 0; i < count; i++) packagesContainer.appendChild(getPkgSkeleton());
+}
 
-const scriptsContainer = document.getElementById("scriptsContainer");
+const packagesContainer = document.getElementById("scriptsContainer");
 const API_URL = "https://backend-1-a2537223.deta.app";
 
-const pendingPromise = new Promise(async (resolve, reject) => {
+const fetchedPkgNames = (await (await fetch(`${API_URL}/`)).json()).packageNames;
+genSkeletons(fetchedPkgNames.length);
+const pkgNames = [];
+const promises = fetchedPkgNames.map(async n => ({pkgName: n, res: await fetch(`${API_URL}/pkg/${n}`)}));
+(await Promise.all(promises)).forEach(async ({pkgName, res}) => {
+	const data = await res.json();
+	const pkgData = JSON.parse(atob(data.content.substring(0, data.content.length - 1)));
+	const skeleton = packagesContainer.querySelector("div.skeleton");
+	packagesContainer.removeChild(skeleton);
+
+	const displayName = pkgData.displayName ? pkgData.displayName : pkgName;
+	const desc = pkgData.description ? pkgData.description : "-- no description --";
+	const tags = pkgData.tags ? pkgData.tags : [];
+
+	if (displayName == pkgName) pkgNames.push(pkgName);
+	else pkgNames.push(displayName);
+
+	packagesContainer.innerHTML += getScriptHTML(
+		pkgName,
+		displayName,
+		desc,
+		pkgData.author.name,
+		pkgData.version.minecraft,
+		pkgData.version.pkg,
+		tags
+	);
+});
+document.querySelector("footer").style.display = "block";
+
+new Promise(async (resolve, reject) => {
 	try {
-		const fetchedScriptNames = (await (await fetch(`${API_URL}/`)).json()).packageNames;
 		const pkgNames = [];
-		for (let pkgName of fetchedScriptNames) {
-			const skeleton = getScriptSkeleton();
-			scriptsContainer.appendChild(skeleton);
+		for (let pkgName of fetchedPkgNames) {
 
 			const res = await (await fetch(`${API_URL}/pkg/${pkgName}`)).json();
-			const pkgData = JSON.parse(atob(res.content.substring(0, res.content.length - 1)));
-
-			const displayName = pkgData.displayName
-				? pkgData.displayName
-				: pkgName;
-			const desc = pkgData.description
-				? pkgData.description
-				: "-- no description --";
-			const tags = pkgData.tags ? pkgData.tags : [];
-
-			if (displayName == pkgName) pkgNames.push(pkgName);
-			else pkgNames.push(displayName);
-
-			scriptsContainer.removeChild(skeleton)
-
-			scriptsContainer.innerHTML += getScriptHTML(
-				displayName,
-				desc,
-				pkgData.author.name,
-				pkgData.version.minecraft,
-				pkgData.version.pkg,
-				tags
-			);
 
 		}
 		resolve(pkgNames);
 	} catch (e) { reject(`${e}`) }
-	document.querySelector("footer").style.display = "block";
 })
 
-const pkgNames = await pendingPromise;
-console.log(pkgNames)
 const fzf = new Fzf(pkgNames, {casing: "case-insensitive"});
 const scriptSearch = document.getElementById("scriptSearch");
 
@@ -96,7 +96,7 @@ scriptSearch.addEventListener("input", (e) => {
 	const results = fzf.find(e.target.value);
 	console.log(e.target.value, results);
 
-	scriptsContainer.querySelectorAll(".script-container").forEach((script) => {
+	packagesContainer.querySelectorAll(".script-container").forEach((script) => {
 		if (results.some((obj) => obj.item == script.querySelector("h1").innerText)) {
 			script.style.display = "block";
 			script.style.opacity = 100;
