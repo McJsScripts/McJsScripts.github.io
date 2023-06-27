@@ -4,11 +4,12 @@ import { Fzf } from "fzf";
 const API_URL = "https://backend-1-a2537223.deta.app";
 
 const urlParams = new URLSearchParams(window.location.search);
-console.log(urlParams);
+
 if (urlParams.has("pkg")) {
 	const pkg = urlParams.get("pkg");
 	const pkgPage = document.querySelector("section#pkgPage");
 	pkgPage.classList.remove("hidden");
+	initPackagePage(pkg);
 } else {
 	const pkgBrowser = document.querySelector("section#pkgBrowser");
 	pkgBrowser.classList.remove("hidden");
@@ -17,11 +18,11 @@ if (urlParams.has("pkg")) {
 
 async function initPackageSearch() {
 	const getScriptHTML = (pkgname, name, desc, owner, mcver, pkgver, tags) => {
-		let tagsElement = document.createElement("div");
+		let tagsContainer = document.createElement("div");
 		if (tags.length) tags.forEach((tag) => {
 			let tagElement = document.createElement("span");
 			tagElement.textContent = tag;
-			tagsElement.appendChild(tagElement)
+			tagsContainer.appendChild(tagElement)
 		});
 
 		const htmlTemplate = `
@@ -32,7 +33,7 @@ async function initPackageSearch() {
 				<img src="/media/code.svg" alt="" /> <span></span>
 			</div>
 			<p></p>
-			<div class="tags">${tagsElement.innerHTML}</div>
+			<div class="tags">${tagsContainer.innerHTML}</div>
 			`;
 
 		let packageContainer = document.createElement("div");
@@ -113,4 +114,62 @@ async function initPackageSearch() {
 			};
 		});
 	});
+}
+
+async function initPackagePage() {
+
+	const getScriptPageHTML = (pkgname, name, desc, owner, mcver, pkgver, tags) => {
+		let tagsContainer = document.createElement("div");
+		if (tags.length) tags.forEach((tag) => {
+			let tagElement = document.createElement("span");
+			tagElement.textContent = tag;
+			tagsContainer.appendChild(tagElement)
+		});
+
+		const htmlTemplate = `
+			<div class="flex justify-center items-center flex-col px-4 md:px-0">
+				<div class="md:max-w-xl bg-secondary rounded-lg p-5">
+					<h1 class="text-4xl font-bold text-center p-2"></h1>
+					<h2 class="text-xl text-gray"></h2>
+					<div class="grid grid-cols-2 gap-5 mt-4">
+						<div class="flex flex-row gap-2" id="stats">
+							<img src="/media/user.svg" alt="" /> <span></span>
+							<img src="/media/cube.svg" alt="" /> <span></span>
+							<img src="/media/code.svg" alt="" /> <span></span>
+						</div>
+						<div class="tags">${tagsContainer.innerHTML}</div>
+					</div>
+				</div>
+			</div>
+		`;
+
+		const packageContainer = document.createElement("div");
+		packageContainer.innerHTML = htmlTemplate;
+
+		packageContainer.querySelector("h1").textContent = name;
+		packageContainer.querySelector("h2").textContent = desc;
+		packageContainer.querySelector("#stats > span:nth-child(2)").textContent = owner;
+		packageContainer.querySelector("#stats > span:nth-child(4)").textContent = mcver;
+		packageContainer.querySelector("#stats > span:nth-child(6)").textContent = pkgver;
+
+		return packageContainer;
+	};
+
+	const pkg = urlParams.get("pkg");
+	const pkgData = await (await fetch(`${API_URL}/pkg/${pkg}`)).json();
+	const pkgContent = JSON.parse(atob(pkgData.content.substring(0, pkgData.content.length - 1)));
+
+	const pkgContainer = document.getElementById("pkgContainer");
+	pkgContainer.appendChild(getScriptPageHTML(
+		pkg,
+		pkgContent.displayName ? pkgContent.displayName : pkg,
+		pkgContent.description ? pkgContent.description : "-- no description --",
+		pkgContent.author.name,
+		pkgContent.version.minecraft,
+		pkgContent.version.pkg,
+		pkgContent.tags ? pkgContent.tags : []
+	));
+
+	const pkgPageContainer = document.getElementById("pkgPage").appendChild(pkgContainer);
+
 }
