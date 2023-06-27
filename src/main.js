@@ -74,8 +74,8 @@ async function initPackageSearch() {
 		const desc = pkgData.description ? pkgData.description : "-- no description --";
 		const tags = pkgData.tags ? pkgData.tags : [];
 
-		if (displayName == pkgName) pkgNames.push(pkgName);
-		else pkgNames.push(displayName);
+	if (displayName != pkgName) pkgNames.push(displayName);
+	pkgNames.push(pkgName);
 
 		pkgContainer.innerHTML += getScriptHTML(
 			pkgName,
