@@ -21,19 +21,18 @@ async function initPackageSearch() {
 		if (tags.length) tags.array.forEach((tag) => tagHTM.appendChild(document.createElement("span").textContent = tag));
 
 		const htmlTemplate = `
-			<div class="pkg-container">
-				<a href="?pkg=${encodeURIComponent(pkgname)}"><h1></h1></a>
-				<div class="stats">
-					<img src="/media/user.svg" alt="" /> <span id="owner"></span>
-					<img src="/media/cube.svg" alt="" /> <span id="mcver"></span>
-					<img src="/media/code.svg" alt="" /> <span id="pkgver"></span>
-				</div>
-				<p id="desc"></p>
-				<div class="tags">${tagsElement.innerHTML}</div>
+			<a href="?pkg=${encodeURIComponent(pkgname)}"><h1></h1></a>
+			<div class="stats">
+				<img src="/media/user.svg" alt="" /> <span id="owner"></span>
+				<img src="/media/cube.svg" alt="" /> <span id="mcver"></span>
+				<img src="/media/code.svg" alt="" /> <span id="pkgver"></span>
 			</div>
+			<p id="desc"></p>
+			<div class="tags">${tagsElement.innerHTML}</div>
 			`;
 
 		let packageContainer = document.createElement("div");
+		packageContainer.classList.add("pkg-container");
 		packageContainer.innerHTML = htmlTemplate;
 
 		packageContainer.querySelector("h1").textContent = name;
