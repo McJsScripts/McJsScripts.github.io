@@ -1,4 +1,5 @@
 import "./index.css";
+import { Fzf } from "fzf";
 
 const getScriptHTML = (name, desc, owner, mcver, scrver, tags) => {
 	let tagHTML = "";
@@ -39,11 +40,13 @@ const getScriptHTML = (name, desc, owner, mcver, scrver, tags) => {
 const scriptsContainer = document.getElementById("scriptsContainer");
 const API_URL = "https://backend-1-a2537223.deta.app";
 
+let scriptNames = [];
+
 // Fetch all scripts from '/' (GET) packageNames[]
 fetch(`${API_URL}/`).then((res) => {
 	res.json().then((data) => {
-		const scriptNames = data.packageNames;
-		scriptNames.forEach((scriptName) => {
+		const fetchedScriptNames = data.packageNames;
+		fetchedScriptNames.forEach((scriptName) => {
 			fetch(`${API_URL}/pkg/${scriptName}`).then((res) => {
 				res.json().then((data) => {
 					const scriptData = JSON.parse(
@@ -58,6 +61,12 @@ fetch(`${API_URL}/`).then((res) => {
 						: "";
 					const scriptTags = scriptData.tags ? scriptData.tags : [];
 
+					if (scriptDisplayName == scriptName) {
+						scriptNames.push(scriptName);
+					} else {
+						scriptNames.push(scriptDisplayName);
+					}
+
 					scriptsContainer.innerHTML += getScriptHTML(
 						scriptDisplayName,
 						scriptDesc,
@@ -69,5 +78,26 @@ fetch(`${API_URL}/`).then((res) => {
 				});
 			});
 		});
+	});
+});
+
+const fzf = new Fzf(scriptNames);
+const scriptSearch = document.getElementById("scriptSearch");
+
+scriptSearch.addEventListener("input", (e) => {
+	const results = fzf.find(e.target.value);
+	console.log(e.target.value);
+	console.log(results);
+
+	scriptsContainer.querySelectorAll(".script-container").forEach((script) => {
+		if (
+			results.some(
+				(obj) => obj.item == script.querySelector("h1").innerText
+			)
+		) {
+			script.style.display = null;
+		} else {
+			script.style.display = "none";
+		}
 	});
 });
