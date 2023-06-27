@@ -2,7 +2,7 @@ import "./index.css";
 import "@fontsource-variable/inter";
 import { Fzf } from "fzf";
 
-const getScriptHTML = (name, desc, owner, mcver, scrver, tags) => {
+const getScriptHTML = (name, desc, owner, mcver, pkgver, tags) => {
 	let tagHTML = "";
 	if (tags.length > 0) {
 		tags.array.forEach((tag) => {
@@ -16,18 +16,12 @@ const getScriptHTML = (name, desc, owner, mcver, scrver, tags) => {
 				<div class="stats">
 					<img src="/media/user.svg" alt="" /> ${owner}
 					<img src="/media/cube.svg" alt="" /> ${mcver}
-					<img src="/media/code.svg" alt="" /> ${scrver}
+					<img src="/media/code.svg" alt="" /> ${pkgver}
 				</div>
-				<p>
-					${desc}
-				</p>
-				<div class="tags">
-					${tagHTML}
-				</div>
+				<p>${desc}</p>
+				<div class="tags">${tagHTML}</div>
 				<div class="mobileinfo">
-					<div class="tags">
-					${tagHTML}
-					</div>
+					<div class="tags">${tagHTML}</div>
 					<div class="stats">
 						<img src="/media/user.svg" alt="" /> sbot50
 						<img src="/media/cube.svg" alt="" /> 1.20
@@ -35,70 +29,56 @@ const getScriptHTML = (name, desc, owner, mcver, scrver, tags) => {
 					</div>
 				</div>
 			</div>
-`;
+		`;
 };
 
 const scriptsContainer = document.getElementById("scriptsContainer");
 const API_URL = "https://backend-1-a2537223.deta.app";
 
-let scriptNames = [];
+const pendingPromise = new Promise(async (resolve, reject) => {
+	try {
+		const fetchedScriptNames = (await (await fetch(`${API_URL}/`)).json()).packageNames;
+		const pkgNames = [];
+		for (let i = 0; i < fetchedScriptNames.length; i++) {
+			const pkgName = fetchedScriptNames[i];
+			const res = await (await fetch(`${API_URL}/pkg/${pkgName}`)).json();
+			const pkgData = JSON.parse(atob(res.content.substring(0, res.content.length - 1)));
 
-// Fetch all scripts from '/' (GET) packageNames[]
-fetch(`${API_URL}/`).then((res) => {
-	res.json().then((data) => {
-		const fetchedScriptNames = data.packageNames;
-		fetchedScriptNames.forEach((scriptName) => {
-			fetch(`${API_URL}/pkg/${scriptName}`).then((res) => {
-				res.json().then((data) => {
-					const scriptData = JSON.parse(
-						atob(data.content.substring(0, data.content.length - 1))
-					);
+			const displayName = pkgData.displayName
+				? pkgData.displayName
+				: pkgName;
+			const desc = pkgData.description
+				? pkgData.description
+				: "-- no description --";
+			const tags = pkgData.tags ? pkgData.tags : [];
 
-					const scriptDisplayName = scriptData.displayName
-						? scriptData.displayName
-						: scriptName;
-					const scriptDesc = scriptData.description
-						? scriptData.description
-						: "";
-					const scriptTags = scriptData.tags ? scriptData.tags : [];
+			if (displayName == pkgName) pkgNames.push(pkgName);
+			else pkgNames.push(displayName);
 
-					if (scriptDisplayName == scriptName) {
-						scriptNames.push(scriptName);
-					} else {
-						scriptNames.push(scriptDisplayName);
-					}
+			scriptsContainer.innerHTML += getScriptHTML(
+				displayName,
+				desc,
+				pkgData.author.name,
+				pkgData.version.minecraft,
+				pkgData.version.pkg,
+				tags
+			);
+		}
+		resolve(pkgNames);
+	} catch (e) { reject(`${e}`) }
+})
 
-					scriptsContainer.innerHTML += getScriptHTML(
-						scriptDisplayName,
-						scriptDesc,
-						scriptData.author.name,
-						scriptData.version.minecraft,
-						scriptData.version.pkg,
-						scriptTags
-					);
-				});
-			});
-		});
-	});
-});
-
-const fzf = new Fzf(scriptNames);
+const pkgNames = await pendingPromise;
+console.log(pkgNames)
+const fzf = new Fzf(pkgNames, {casing: "case-insensitive"});
 const scriptSearch = document.getElementById("scriptSearch");
 
 scriptSearch.addEventListener("input", (e) => {
 	const results = fzf.find(e.target.value);
-	console.log(e.target.value);
-	console.log(results);
+	console.log(e.target.value, results);
 
 	scriptsContainer.querySelectorAll(".script-container").forEach((script) => {
-		if (
-			results.some(
-				(obj) => obj.item == script.querySelector("h1").innerText
-			)
-		) {
-			script.style.display = null;
-		} else {
-			script.style.display = "none";
-		}
+		if (results.some((obj) => obj.item == script.querySelector("h1").innerText)) script.style.display = null;
+		else script.style.display = "none";
 	});
 });
