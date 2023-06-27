@@ -68,6 +68,7 @@ async function initPackageSearch() {
 
 		if (displayName != pkgName) searchQueries.push(displayName);
 		searchQueries.push(pkgName);
+		searchQueries.push(desc);
 		searchQueries.push(pkgData.author.name);
 		searchQueries.push(pkgData.version.minecraft);
 
@@ -88,9 +89,7 @@ async function initPackageSearch() {
 	scriptSearch.addEventListener("input", (e) => {
 		const results = fzf.find(e.target.value);
 		pkgContainer.querySelectorAll(".pkg-container").forEach((pkg) => {
-			if (results.some((obj) => obj.item == pkg.querySelector("h1").innerText
-							|| obj.item == pkg.querySelector(".stats > #owner").innerText
-			 				|| obj.item == pkg.querySelector(".stats > #mcver").innerText)) {
+			if (results.some((obj) => pkg.innerHTML.includes(obj.item))) {
 				pkg.style.display = "grid";
 				pkg.style.opacity = 100;
 			} else {
