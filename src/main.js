@@ -18,7 +18,11 @@ if (urlParams.has("pkg")) {
 async function initPackageSearch() {
 	const getScriptHTML = (pkgname, name, desc, owner, mcver, pkgver, tags) => {
 		let tagsElement = document.createElement("div");
-		if (tags.length) tags.array.forEach((tag) => tagHTM.appendChild(document.createElement("span").textContent = tag));
+		if (tags.length) tags.forEach((tag) => {
+			let tagElement = document.createElement("span");
+			tagElement.textContent = tag;
+			tagsElement.appendChild(tagElement)
+		});
 
 		const htmlTemplate = `
 			<a href="?pkg=${encodeURIComponent(pkgname)}"><h1></h1></a>
