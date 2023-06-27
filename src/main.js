@@ -71,6 +71,7 @@ async function initPackageSearch() {
 		searchQueries.push(desc);
 		searchQueries.push(pkgData.author.name);
 		searchQueries.push(pkgData.version.minecraft);
+		searchQueries.push(...tags);
 
 		pkgContainer.innerHTML += getScriptHTML(
 			pkgName,
