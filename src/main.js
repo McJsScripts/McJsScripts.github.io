@@ -17,21 +17,32 @@ if (urlParams.has("pkg")) {
 
 async function initPackageSearch() {
 	const getScriptHTML = (pkgname, name, desc, owner, mcver, pkgver, tags) => {
-		let tagHTML = "";
-		if (tags.length) tags.array.forEach((tag) => tagHTML += `<span>${tag}</span>`);
+		let tagsElement = document.createElement("div");
+		if (tags.length) tags.array.forEach((tag) => tagHTM.appendChild(document.createElement("span").textContent = tag));
 
-		return `
+		const htmlTemplate = `
 			<div class="pkg-container">
-				<a href="?pkg=${encodeURIComponent(pkgname)}"><h1>${name}</h1></a>
+				<a href="?pkg=${encodeURIComponent(pkgname)}"><h1></h1></a>
 				<div class="stats">
-					<img src="/media/user.svg" alt="" /> ${owner}
-					<img src="/media/cube.svg" alt="" /> ${mcver}
-					<img src="/media/code.svg" alt="" /> ${pkgver}
+					<img src="/media/user.svg" alt="" /> <span id="owner"></span>
+					<img src="/media/cube.svg" alt="" /> <span id="mcver"></span>
+					<img src="/media/code.svg" alt="" /> <span id="pkgver"></span>
 				</div>
-				<p>${desc}</p>
-				<div class="tags">${tagHTML}</div>
+				<p id="desc"></p>
+				<div class="tags">${tagsElement.innerHTML}</div>
 			</div>
 			`;
+
+		let packageContainer = document.createElement("div");
+		packageContainer.innerHTML = htmlTemplate;
+
+		packageContainer.querySelector("h1").textContent = name;
+		packageContainer.querySelector("#owner").textContent = owner;
+		packageContainer.querySelector("#mcver").textContent = mcver;
+		packageContainer.querySelector("#pkgver").textContent = pkgver;
+		packageContainer.querySelector("#desc").textContent = desc;
+
+		return packageContainer;
 	}
 	const getPkgSkeleton = () => {
 		const skeleton = document.createElement("div");
@@ -73,7 +84,7 @@ async function initPackageSearch() {
 		searchQueries.push(pkgData.version.minecraft);
 		searchQueries.push(...tags);
 
-		pkgContainer.innerHTML += getScriptHTML(
+		pkgContainer.appendChild(getScriptHTML(
 			pkgName,
 			displayName,
 			desc,
@@ -81,7 +92,7 @@ async function initPackageSearch() {
 			pkgData.version.minecraft,
 			pkgData.version.pkg,
 			tags
-		);
+		));
 	}));
 
 	const fzf = new Fzf(searchQueries, {casing: "case-insensitive"});
