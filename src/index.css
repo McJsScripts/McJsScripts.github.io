@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .script-container {
-	@apply bg-secondary p-3 rounded-lg md:grid items-center grid-cols-2;
+	@apply bg-secondary p-3 rounded-lg md:grid items-center grid-cols-2 transition-opacity opacity-100;
 }
 
 .script-container h1 {
@@ -30,4 +30,8 @@
 
 .script-container .mobileinfo {
 	@apply md:hidden;
+}
+
+footer a {
+	@apply text-white underline appearance-none
 }
