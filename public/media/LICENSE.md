@@ -9,7 +9,5 @@ _<code,cube,download,search,user>.svg_
 
 ## Inter by Rasmus Andersson
 
-_Inter-VariableFont.ttf_
-
 > Website: https://rsms.me/inter/ <br>
 > License: https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL (Open Font License)

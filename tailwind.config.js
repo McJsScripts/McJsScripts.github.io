@@ -13,8 +13,8 @@ export default {
 			},
 		},
 		fontFamily: {
-			sans: "Inter, sans-serif",
+			sans: "'Inter Variable', sans-serif",
 		},
 	},
 	plugins: [],
-}
+};

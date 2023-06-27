@@ -1,4 +1,5 @@
 import "./index.css";
+import "@fontsource-variable/inter";
 import { Fzf } from "fzf";
 
 const getScriptHTML = (name, desc, owner, mcver, scrver, tags) => {
