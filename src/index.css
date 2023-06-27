@@ -2,33 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-.script-container {
+.pkg-container {
 	@apply bg-secondary p-3 rounded-lg md:grid items-center grid-cols-2 transition-opacity opacity-100;
 }
 
-.script-container h1 {
+.pkg-container h1 {
 	@apply text-xl ml-2 font-bold;
 }
 
-.script-container p {
+.pkg-container p {
 	@apply text-base ml-2 text-gray max-w-3xl;
 }
 
-.script-container .stats {
+.pkg-container .stats {
 	@apply text-sm flex font-normal justify-end gap-2 p-2;
 }
-.script-container > .stats {
+.pkg-container > .stats {
 	@apply hidden md:flex;
 }
 
-.script-container .tags {
+.pkg-container .tags {
 	@apply text-base hidden md:flex md:justify-end font-normal gap-2 p-2;
 }
-.script-container .tags > span {
+.pkg-container .tags > span {
 	@apply rounded-full bg-tertiary text-gray py-1 px-3;
 }
 
-.script-container .mobileinfo {
+.pkg-container .mobileinfo {
 	@apply md:hidden;
 }
 

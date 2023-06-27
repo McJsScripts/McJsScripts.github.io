@@ -3,32 +3,35 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>JSPM Browser</title>
-		<script src="./src/main.js" type="module"></script>
+		<title>MCJsScripts</title>
+		<script defer src="./src/main.js" type="module"></script>
 	</head>
-	<body class="bg-background text-white ">
-		<header>
-			<div class="bg-primary grid grid-cols-2 items-center m-3 p-2 justify-center rounded-md">
-				<span class="text-3xl inline">
-					<a class="font-bold lg:mr-3" href="/">JSPM</a><span class="hidden lg:inline border-l-2 pl-3">JsScripts Package Manager</span>
-				</span>
-				<div class="flex flex-row">
-					<input type="text" placeholder="Search by name or tags..." id="scriptSearch" class="bg-secondary p-2 rounded-l-lg w-full"/>
-					<button class="bg-tertiary rounded-r-lg px-2">
-						<img src="./media/search.svg" alt="" class="w-5" />
-					</button>
+	<body class="bg-background text-white">
+		<section id="pkgBrowser" class="hidden">
+			<header>
+				<div class="bg-primary grid grid-cols-2 items-center m-3 p-2 justify-center rounded-md">
+					<span class="text-3xl inline">
+						<a class="font-bold lg:mr-3" href="/">JSPM</a><span class="hidden lg:inline border-l-2 pl-3">JsScripts Package Manager</span>
+					</span>
+					<div class="flex flex-row">
+						<input type="text" placeholder="Search by name or tags..." id="pkgSearch" class="bg-secondary p-2 rounded-l-lg w-full"/>
+						<button class="bg-tertiary rounded-r-lg px-2">
+							<img src="./media/search.svg" alt="" class="w-5" />
+						</button>
+					</div>
 				</div>
-			</div>
-		</header>
-		<main>
-			<div class="flex flex-col w-full h-full p-5 gap-8" id="scriptsContainer">
-				
-			</div>
-		</main>
-		<footer class="bg-secondary shadow-md rounded-lg w-full p-2 text-lg text-gray" style="display: none;">
+			</header>
+			<main>
+				<div class="flex flex-col w-full h-full p-5 gap-8" id="pkgContainer"></div>
+			</main>
+		</section>
+		<section id="pkgPage" class="hidden">
+			bruh moner
+		</section>
+		<footer class="sticky bottom-0 right-0 bg-secondary shadow-md w-full p-2 text-lg text-gray" style="display: none;">
 			<p>JsScripts by <a href="https://github.com/BlazeMCworld">BlazeMCWorld</a></p>
 			<p>JsScripts Package Manager by <a href="https://github.com/UserUNP">UserUNP</a> and <a href="https://github.com/RedVortexDev">RedVortex</a></p>
-			<p>Scripts by you!</p>
+			<p>Packages by you!</p>
 		</footer>
 	</body>
 </html>
