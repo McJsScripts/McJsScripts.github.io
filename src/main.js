@@ -23,11 +23,11 @@ async function initPackageSearch() {
 		const htmlTemplate = `
 			<a href="?pkg=${encodeURIComponent(pkgname)}"><h1></h1></a>
 			<div class="stats">
-				<img src="/media/user.svg" alt="" /> <span id="owner"></span>
-				<img src="/media/cube.svg" alt="" /> <span id="mcver"></span>
-				<img src="/media/code.svg" alt="" /> <span id="pkgver"></span>
+				<img src="/media/user.svg" alt="" /> <span></span>
+				<img src="/media/cube.svg" alt="" /> <span></span>
+				<img src="/media/code.svg" alt="" /> <span></span>
 			</div>
-			<p id="desc"></p>
+			<p></p>
 			<div class="tags">${tagsElement.innerHTML}</div>
 			`;
 
@@ -36,10 +36,10 @@ async function initPackageSearch() {
 		packageContainer.innerHTML = htmlTemplate;
 
 		packageContainer.querySelector("h1").textContent = name;
-		packageContainer.querySelector("#owner").textContent = owner;
-		packageContainer.querySelector("#mcver").textContent = mcver;
-		packageContainer.querySelector("#pkgver").textContent = pkgver;
-		packageContainer.querySelector("#desc").textContent = desc;
+		packageContainer.querySelector("p").textContent = desc;
+		packageContainer.querySelector("div.stats > span:nth-child(2)").textContent = owner;
+		packageContainer.querySelector("div.stats > span:nth-child(4)").textContent = mcver;
+		packageContainer.querySelector("div.stats > span:nth-child(6)").textContent = pkgver;
 
 		return packageContainer;
 	}
