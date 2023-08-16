@@ -1,7 +1,7 @@
 import "./index.css";
 import "@fontsource-variable/inter";
 import { Fzf } from "fzf";
-const API_URL = "https://backend-1-a2537223.deta.app";
+const API_URL = "https://backend-userunp.vercel.app";
 
 const urlParams = new URLSearchParams(window.location.search);
 
